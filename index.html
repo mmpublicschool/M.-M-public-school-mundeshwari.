@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.M. Public School Mundeshwari</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Firebase CDN directly in HTML -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+        import { getDatabase, ref, set, get, child, remove } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCy1r8BXbe-W9UBsCrFDFgkHy-j7lYFwYg",
+            authDomain: "mmpublicschoolmundeshwar-233a4.firebaseapp.com",
+            databaseURL: "https://mmpublicschoolmundeshwar-233a4-default-rtdb.firebaseio.com",
+            projectId: "mmpublicschoolmundeshwar-233a4",
+            storageBucket: "mmpublicschoolmundeshwar-233a4.firebasestorage.app",
+            messagingSenderId: "34014305665",
+            appId: "1:34014305665:web:543d0aed6c75d6d8549c80",
+            measurementId: "G-XZZ5335QF0"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
+        // Make Firebase available globally
+        window.firebase = {
+            database: database,
+            ref: ref,
+            set: set,
+            get: get,
+            child: child,
+            remove: remove
+        };
+
+        window.firebaseReady = true;
+        
+        console.log("✅ Firebase initialized successfully!");
+        
+        // Start the app after Firebase is ready
+        if (window.initApp) {
+            window.initApp();
+        }
+    </script>
+</head>
+<body>
+    <!-- Your existing HTML content remains the same -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="school-name">M.M. Public School Mundeshwari</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Notice Section -->
+        <section class="notice-section">
+            <div class="notice-header">
+                <div class="notice-icon">
+                    <i class="fas fa-bullhorn"></i>
+                </div>
+                <div class="notice-title">Latest Notice</div>
+            </div>
+            <div class="notice-content">
+                <div class="marquee">
+                    <span>आज हुई परीक्षा समाप्त हो गई है और परिणाम जारी कर दिए गए हैं। छात्र अपना परिणाम ऑनलाइन देख सकते हैं।</apan>
+                </div>
+            </div>
+        </section>
+
+        <!-- Main Content Section -->
+        <div class="main-content">
+            <!-- Check Result Card -->
+            <div class="card">
+                <h2 class="card-title">Check Result</h2>
+                <div class="form-group">
+                    <label for="studentName">Enter Your Name</label>
+                    <input type="text" id="studentName" placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="rollNumber">Enter Your Roll Number</label>
+                    <input type="text" id="rollNumber" placeholder="Roll Number">
+                </div>
+                <button id="checkResultBtn">
+                    <span id="checkResultText">Check Result</span>
+                    <span id="checkResultLoading" class="loading" style="display: none;"></span>
+                </button>
+                <div id="resultDisplay" class="result-display"></div>
+            </div>
+
+            <!-- Check Admit Card -->
+            <div class="card">
+                <h2 class="card-title">Check Admit Card</h2>
+                <div class="form-group">
+                    <label for="admitName">Enter Your Name</label>
+                    <input type="text" id="admitName" placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="fatherName">Enter Father's Name</label>
+                    <input type="text" id="fatherName" placeholder="Father's Name">
+                </div>
+                <div class="form-group">
+                    <label for="dob">Enter Date of Birth</label>
+                    <input type="date" id="dob">
+                </div>
+                <button id="checkAdmitBtn">
+                    <span id="checkAdmitText">Check Admit Card</span>
+                    <span id="checkAdmitLoading" class="loading" style="display: none;"></span>
+                </button>
+                <div id="admitDisplay" class="admit-card-display"></div>
+            </div>
+        </div>
+
+        <!-- Login Section -->
+        <section class="login-section" id="loginSection">
+            <div class="student-icon">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <h2 class="login-title">Official Login</h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter Username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter Password">
+            </div>
+            <button id="loginBtn">Login</button>
+            <div id="loginMessage" style="margin-top: 15px;"></div>
+        </section>
+
+        <!-- Admin Panel -->
+        <section class="admin-panel" id="adminPanel">
+            <div class="admin-header">
+                <h2 class="admin-title">Admin Panel</h2>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+            
+            <div class="admin-options">
+                <!-- Upload Result -->
+                <div class="admin-card">
+                    <h3 class="admin-card-title">Upload Result</h3>
+                    <div class="form-group">
+                        <label for="resultName">Student Name</label>
+                        <input type="text" id="resultName" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="resultRoll">Roll Number</label>
+                        <input type="text" id="resultRoll" placeholder="Roll Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="resultMarks">Marks (out of 100)</label>
+                        <input type="number" id="resultMarks" placeholder="e.g., 85" min="0" max="100">
+                    </div>
+                    <div class="form-row">
+                        <button class="upload-btn" id="uploadResultBtn">Upload</button>
+                        <button class="remove-btn" id="removeResultBtn">Remove</button>
+                    </div>
+                </div>
+                
+                <!-- Upload Admit Card -->
+                <div class="admin-card">
+                    <h3 class="admin-card-title">Upload Admit Card</h3>
+                    <div class="form-group">
+                        <label for="admitCardName">Student Name</label>
+                        <input type="text" id="admitCardName" placeholder="Full Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="admitFatherName">Father's Name</label>
+                        <input type="text" id="admitFatherName" placeholder="Father's Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="admitMotherName">Mother's Name</label>
+                        <input type="text" id="admitMotherName" placeholder="Mother's Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="admitRoll">Roll Number</label>
+                        <input type="text" id="admitRoll" placeholder="Roll Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="mobileNumber">Mobile Number</label>
+                        <input type="text" id="mobileNumber" placeholder="Mobile Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="admitDob">Date of Birth</label>
+                        <input type="date" id="admitDob">
+                    </div>
+                    <div class="form-group">
+                        <label for="examCenter">Select Center</label>
+                        <select id="examCenter">
+                            <option value="">Select Center</option>
+                            <option value="Mundeshwari">Mundeshwari</option>
+                            <option value="Umapur">Umapur</option>
+                            <option value="Shahpur">Shahpur</option>
+                            <option value="Masahi">Masahi</option>
+                            <option value="Ramgarh">Ramgarh</option>
+                            <option value="Bhagwanpur">Bhagwanpur</option>
+                            <option value="Bhabhua">Bhabhua</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="examDate">Exam Date</label>
+                        <input type="date" id="examDate">
+                    </div>
+                    <div class="form-group">
+                        <label>Exam Time</label>
+                        <div class="time-inputs">
+                            <input type="time" id="examStartTime" placeholder="Start Time">
+                            <input type="time" id="examEndTime" placeholder="End Time">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <button class="upload-btn" id="uploadAdmitBtn">Upload</button>
+                        <button class="remove-btn" id="removeAdmitBtn">Remove</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Data Status Display -->
+            <div style="margin-top: 20px; padding: 15px; background: #e9ecef; border-radius: 8px;">
+                <h3>Firebase Data Status</h3>
+                <p>Total Results: <span id="totalResults">0</span></p>
+                <p>Total Admit Cards: <span id="totalAdmitCards">0</span></p>
+                <p>Connection Status: <span id="firebaseStatus" style="color: green;">Connected</span></p>
+            </div>
+        </section>
+
+        <!-- Admit Card Template -->
+        <div class="admit-card-template" id="admitCardTemplate">
+            <div class="admit-card-header">
+                <div class="school-name-large">M.M. Public School Mundeshwari</div>
+                <div class="admit-card-title">Admit Card</div>
+                <div class="admit-card-year">Annual Examination 2025</div>
+            </div>
+            
+            <div class="student-photo-placeholder">
+                Student Photo
+            </div>
+            
+            <div class="admit-card-details">
+                <div class="detail-item">
+                    <span class="detail-label">Name:</span>
+                    <span class="detail-value" id="acName">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Father's Name:</span>
+                    <span class="detail-value" id="acFather">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Mother's Name:</span>
+                    <span class="detail-value" id="acMother">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Roll Number:</span>
+                    <span class="detail-value" id="acRoll">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Date of Birth:</span>
+                    <span class="detail-value" id="acDob">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Mobile Number:</span>
+                    <span class="detail-value" id="acMobile">-</span>
+                </div>
+            </div>
+            
+            <div class="exam-details">
+                <div class="detail-item">
+                    <span class="detail-label">Exam Center:</span>
+                    <span class="detail-value" id="acCenter">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Exam Date:</span>
+                    <span class="detail-value" id="acDate">-</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label">Exam Time:</span>
+                    <span class="detail-value" id="acTime">-</span>
+                </div>
+            </div>
+            
+            <div class="instructions">
+                <h4>Instructions:</h4>
+                <ul>
+                    <li>Carry this admit card to the examination center.</li>
+                    <li>Report at the center 30 minutes before the exam.</li>
+                    <li>Carry your own stationery items.</li>
+                    <li>Mobile phones are strictly prohibited.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>M.M. Public School Mundeshwari &copy; 2025. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>

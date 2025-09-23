@@ -459,3 +459,24 @@ function formatTime(timeString) {
     const time = new Date(`2000-01-01T${timeString}`);
     return time.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
 }
+// Modal functionality
+const modal = document.getElementById("admissionModal");
+const openBtn = document.getElementById("openAdmissionBtn");
+const closeBtn = document.querySelector(".admission-close");
+
+// Open modal
+openBtn.addEventListener("click", () => {
+    modal.style.display = "block";
+});
+
+// Close modal
+closeBtn.addEventListener("click", () => {
+    modal.style.display = "none";
+});
+
+// Close modal when clicking outside
+window.addEventListener("click", (e) => {
+    if(e.target == modal){
+        modal.style.display = "none";
+    }
+});

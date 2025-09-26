@@ -310,25 +310,17 @@ uploadResultBtn.addEventListener('click', () => {
     });  
 });  
   
-// Remove Result  
-removeResultBtn.addEventListener('click', () => {  
-    const roll = document.getElementById('resultRoll').value.trim();  
-      
-    if (!roll) {  
-        alert('Please enter roll number');  
-        return;  
-    }  
-      
-    if (confirm(`Are you sure you want to remove result for roll number ${roll}?`)) {  
-        dbRemove(dbRef(db, `results/${roll}`)).then(() => {  
-            alert('Result removed successfully!');  
-            document.getElementById('resultRoll').value = '';  
-            updateDataStatus();  
-        }).catch((error) => {  
-            alert('Error removing result: ' + error.message);  
-        });  
-    }  
-});  
+// Remove All Results
+removeResultBtn.addEventListener('click', () => {
+    if (confirm("Are you sure you want to remove ALL results?")) {
+        dbRemove(dbRef(db, 'results')).then(() => {
+            alert('All results removed successfully!');
+            updateDataStatus();
+        }).catch((error) => {
+            alert('Error removing all results: ' + error.message);
+        });
+    }
+});
   
 // Upload Admit Card  
 uploadAdmitBtn.addEventListener('click', () => {  
@@ -370,25 +362,17 @@ uploadAdmitBtn.addEventListener('click', () => {
     });  
 });  
   
-// Remove Admit Card  
-removeAdmitBtn.addEventListener('click', () => {  
-    const roll = document.getElementById('admitRoll').value.trim();  
-      
-    if (!roll) {  
-        alert('Please enter roll number');  
-        return;  
-    }  
-      
-    if (confirm(`Are you sure you want to remove admit card for roll number ${roll}?`)) {  
-        dbRemove(dbRef(db, `admitCards/${roll}`)).then(() => {  
-            alert('Admit card removed successfully!');  
-            document.getElementById('admitRoll').value = '';  
-            updateDataStatus();  
-        }).catch((error) => {  
-            alert('Error removing admit card: ' + error.message);  
-        });  
-    }  
-});  
+// Remove All Admit Cards
+removeAdmitBtn.addEventListener('click', () => {
+    if (confirm("Are you sure you want to remove ALL admit cards?")) {
+        dbRemove(dbRef(db, 'admitCards')).then(() => {
+            alert('All admit cards removed successfully!');
+            updateDataStatus();
+        }).catch((error) => {
+            alert('Error removing all admit cards: ' + error.message);
+        });
+    }
+});
   
 // Upload Topper Student  
 uploadTopperBtn.addEventListener('click', () => {  
@@ -419,51 +403,18 @@ uploadTopperBtn.addEventListener('click', () => {
     });  
 });  
   
-// Remove Topper Student  
-removeTopperBtn.addEventListener('click', () => {  
-    const name = document.getElementById('topperName').value.trim();  
-    const rank = document.getElementById('topperRank').value;  
-      
-    if (!name || !rank) {  
-        alert('Please enter name and rank to remove');  
-        return;  
-    }  
-      
-    if (confirm(`Are you sure you want to remove topper ${name} with rank ${rank}?`)) {  
-        // We need to find the topper by name and rank  
-        dbGet(dbChild(dbRef(db), 'toppers')).then((snapshot) => {  
-            if (snapshot.exists()) {  
-                const toppers = snapshot.val();  
-                let topperId = null;  
-                  
-                for (const id in toppers) {  
-                    if (toppers[id].name.toLowerCase() === name.toLowerCase() &&   
-                        toppers[id].rank.toString() === rank) {  
-                        topperId = id;  
-                        break;  
-                    }  
-                }  
-                  
-                if (topperId) {  
-                    dbRemove(dbRef(db, `toppers/${topperId}`)).then(() => {  
-                        alert('Topper student removed successfully!');  
-                        document.getElementById('topperName').value = '';  
-                        document.getElementById('topperRank').value = '';  
-                        updateDataStatus();  
-                    }).catch((error) => {  
-                        alert('Error removing topper student: ' + error.message);  
-                    });  
-                } else {  
-                    alert('Topper student not found with provided name and rank');  
-                }  
-            } else {  
-                alert('No topper data found');  
-            }  
-        }).catch((error) => {  
-            alert('Error finding topper student: ' + error.message);  
-        });  
-    }  
-});  
+  // Remove All Toppers
+removeTopperBtn.addEventListener('click', () => {
+    if (confirm("Are you sure you want to remove ALL toppers?")) {
+        dbRemove(dbRef(db, 'toppers')).then(() => {
+            alert('All toppers removed successfully!');
+            updateDataStatus();
+        }).catch((error) => {
+            alert('Error removing all toppers: ' + error.message);
+        });
+    }
+});
+  
 // === Cancel button functionality ===
 document.addEventListener('click', function(event) {
     if (event.target.id === 'cancelBtn') {

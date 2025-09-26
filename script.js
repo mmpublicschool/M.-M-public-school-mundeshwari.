@@ -305,7 +305,7 @@ checkAdmitBtn.addEventListener('click', () => {
                             </head>
                             <body>
                                 <div class="container">
-                                    <h1>MM Public School Mundeshwari</h1>
+                                    <h1>M.M Public School Mundeshwari</h1>
                                     <h2>Admit Card</h2>
                                     <div class="divider"></div>
                                     <div class="row"><span><b>Name:</b> ${card.name}</span><span><b>Roll No:</b> ${roll}</span></div>
@@ -314,14 +314,14 @@ checkAdmitBtn.addEventListener('click', () => {
                                     <div class="row"><span><b>Exam Center:</b> ${card.examCenter || '-'}</span><span><b>Exam Date:</b> ${card.examDate || '-'}</span></div>
                                     <div class="row"><span><b>Start Time:</b> ${card.examStartTime || '-'}</span><span><b>End Time:</b> ${card.examEndTime || '-'}</span></div>
                                     <div class="divider"></div>
-                                    <div class="note">1. Aadhaar Card is mandatory</div>
+                                    <div class="note">1. Bring your Admit Card without fail.</div>
                                     <div class="note">2. Reach the exam center at least 30 minutes early</div>
                                     <div class="note">3. Electronic devices are strictly prohibited</div>
                                     <div class="sign-row">
                                         <div class="sign-box">Student Signature</div>
                                         <div class="sign-box">Principal Signature</div>
                                     </div>
-                                    <div class="footer-line">This is an official admit card from MM Public School Mundeshwari</div>
+                                    <div class="footer-line">This is an official admit card from M.M Public School Mundeshwari</div>
                                 </div>
                             </body>
                             </html>

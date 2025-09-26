@@ -316,34 +316,79 @@ button:active {
     to { transform: rotate(360deg); }
 }
 
-/* Result Display */
-.result-display, .admit-card-display, .topper-display {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 8px;
-    background: #f8f9fa;
-    display: none;
+/* Result Card */
+.result-card {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    max-width: 700px;
+    margin: 20px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.result-display.show, .admit-card-display.show, .topper-display.show {
-    display: block;
-    animation: fadeIn 0.5s ease;
+/* Card heading */
+.result-card h3 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 22px;
 }
 
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
+/* Student details */
+.result-card p {
+    font-size: 16px;
+    margin: 5px 0;
 }
 
-.result-item {
-    padding: 10px;
-    border-bottom: 1px solid #e9ecef;
+/* Pass/Fail color */
+.result-card p strong {
+    color: #555;
+}
+
+.result-card p:contains("Pass") strong {
+    color: green;
+}
+
+.result-card p:contains("Fail") strong {
+    color: red;
+}
+
+/* Subject Grid */
+.subject-grid {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
-.result-item:last-child {
-    border-bottom: none;
+/* Each column */
+.subject-column {
+    width: 48%;
+}
+
+/* Each subject item */
+.subject-item {
+    background-color: #e8f0fe;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    font-weight: 500;
+    color: #333;
+}
+
+/* Highlight top grades */
+.subject-item strong {
+    font-weight: 600;
+}
+
+/* Optional: responsive for mobile */
+@media screen and (max-width: 600px) {
+    .subject-grid {
+        flex-direction: column;
+    }
+    .subject-column {
+        width: 100%;
+    }
 }
 
 /* Login Section */

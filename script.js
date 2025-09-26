@@ -83,11 +83,12 @@ function showMessage(displayId, message, type) {
     display.className = `${displayId.split('Display')[0]}-display ${type}`;  
     display.style.display = 'block';  
 }  
-  
-// Check Result
+ // Check Result
 checkResultBtn.addEventListener('click', () => {
-    const name = document.getElementById('studentName').value.trim();
-    const roll = document.getElementById('rollNumber').value.trim();
+    const nameField = document.getElementById('studentName');
+    const rollField = document.getElementById('rollNumber');
+    const name = nameField.value.trim();
+    const roll = rollField.value.trim();
 
     if (!name || !roll) {
         showMessage('resultDisplay', 'Please enter both name and roll number.', 'error');
@@ -119,18 +120,29 @@ checkResultBtn.addEventListener('click', () => {
 
                 // Onscreen result
                 const onscreenHTML = `
-                    <div style="max-width: 400px; margin: 20px auto; padding: 20px; border: 2px solid #007BFF; border-radius: 10px; background: #f9f9f9; text-align: center; font-family: Arial, sans-serif;">
+                    <div style="max-width: 420px; margin: 20px auto; padding: 20px; border: 2px solid #007BFF; border-radius: 10px; background: #f9f9f9; text-align: center; font-family: Arial, sans-serif;">
                         <h2 style="color: #007BFF; margin-bottom: 20px;">Result Details</h2>
                         <p><strong>Name:</strong> ${result.name}</p>
                         <p><strong>Roll No:</strong> ${roll}</p>
                         <p><strong>Marks:</strong> ${result.marks}/100</p>
                         <p><strong>Status:</strong> <span style="color: ${status === 'Pass' ? 'green' : 'red'};">${status}</span></p>
                         <p><strong>Grade:</strong> ${grade}</p>
-                        <button id="saveResultBtn" style="margin-top: 15px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Save Result</button>
+                        <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+                            <button id="saveResultBtn" style="flex:1; margin-right:10px; padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Save Result</button>
+                            <button id="cancelResultBtn" style="flex:1; margin-left:10px; padding: 10px; background-color: #dc3545; color: white; border: none; border-radius: 5px; cursor: pointer;">Cancel</button>
+                        </div>
                     </div>
                 `;
 
                 document.getElementById('resultDisplay').innerHTML = onscreenHTML;
+
+                // Cancel button – remove result & reset inputs
+                document.getElementById('cancelResultBtn').addEventListener('click', () => {
+                    document.getElementById('resultDisplay').innerHTML = '';
+                    nameField.value = '';
+                    rollField.value = '';
+                    nameField.focus(); // cursor वापस name पर
+                });
 
                 // Download result
                 document.getElementById('saveResultBtn').addEventListener('click', () => {
@@ -217,11 +229,11 @@ checkResultBtn.addEventListener('click', () => {
         showMessage('resultDisplay', 'Error fetching result. Please try again.', 'error');
         console.error('Error:', error);
     });
-});
+});         
   // Check Admit Card
 checkAdmitBtn.addEventListener('click', () => {
     const name = document.getElementById('admitName').value.trim();
-    const fatherName = document.getElementById('fatherName').value.trim();
+    const fatherName = document.getElmentById('fatherName').value.trim();
     const dob = document.getElementById('dob').value;
 
     if (!name || !fatherName || !dob) {

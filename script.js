@@ -79,47 +79,145 @@ function hideLoading(buttonId, textId, loadingId) {
 // Show message in display area  
 function showMessage(displayId, message, type) {  
     const display = document.getElementById(displayId);  
-    display.innerHTML = message;  
+    display.innerHTM = message;  
     display.className = `${displayId.split('Display')[0]}-display ${type}`;  
     display.style.display = 'block';  
 }  
   
-// Check Result  
-checkResultBtn.addEventListener('click', () => {  
-    const name = document.getElementById('studentName').value.trim();  
-    const roll = document.getElementById('rollNumber').value.trim();  
-      
-    if (!name || !roll) {  
-        showMessage('resultDisplay', 'Please enter both name and roll number.', 'error');  
-        return;  
-    }  
-      
-    showLoading('checkResultBtn', 'checkResultText', 'checkResultLoading');  
-      
-    dbGet(dbChild(dbRef(db), `results/${roll}`)).then((snapshot) => {  
-        hideLoading('checkResultBtn', 'checkResultText', 'checkResultLoading');  
-          
-        if (snapshot.exists()) {  
-            const result = snapshot.val();  
-            if (result.name.toLowerCase() === name.toLowerCase()) {  
-                showMessage('resultDisplay',   
-                    `<strong>Name:</strong> ${result.name}<br>  
-                     <strong>Roll No:</strong> ${roll}<br>  
-                     <strong>Marks:</strong> ${result.marks}/100<br>  
-                     <strong>Status:</strong> ${result.marks >= 33 ? 'Pass' : 'Fail'}`,   
-                    'success');  
-            } else {  
-                showMessage('resultDisplay', 'Name does not match with roll number.', 'error');  
-            }  
-        } else {  
-            showMessage('resultDisplay', 'Result not found for this roll number.', 'error');  
-        }  
-    }).catch((error) => {  
-        hideLoading('checkResultBtn', 'checkResultText', 'checkResultLoading');  
-        showMessage('resultDisplay', 'Error fetching result. Please try again.', 'error');  
-        console.error('Error:', error);  
-    });  
-});  
+// Check Result
+checkResultBtn.addEventListener('click', () => {
+    const name = document.getElementById('studentName').value.trim();
+    const roll = document.getElementById('rollNumber').value.trim();
+
+    if (!name || !roll) {
+        showMessage('resultDisplay', 'Please enter both name and roll number.', 'error');
+        return;
+    }
+
+    showLoading('checkResultBtn', 'checkResultText', 'checkResultLoading');
+
+    dbGet(dbChild(dbRef(db), `results/${roll}`)).then((snapshot) => {
+        hideLoading('checkResultBtn', 'checkResultText', 'checkResultLoading');
+
+        if (snapshot.exists()) {
+            const result = snapshot.val();
+
+            if (result.name.toLowerCase() === name.toLowerCase()) {
+
+                function getGrade(marks) {
+                    if (marks >= 90) return "A+";
+                    if (marks >= 80) return "A";
+                    if (marks >= 70) return "B+";
+                    if (marks >= 60) return "B";
+                    if (marks >= 50) return "C";
+                    if (marks >= 40) return "D";
+                    return "F";
+                }
+
+                const grade = getGrade(result.marks);
+                const status = result.marks >= 33 ? 'Pass' : 'Fail';
+
+                // Onscreen result
+                const onscreenHTML = `
+                    <div style="max-width: 400px; margin: 20px auto; padding: 20px; border: 2px solid #007BFF; border-radius: 10px; background: #f9f9f9; text-align: center; font-family: Arial, sans-serif;">
+                        <h2 style="color: #007BFF; margin-bottom: 20px;">Result Details</h2>
+                        <p><strong>Name:</strong> ${result.name}</p>
+                        <p><strong>Roll No:</strong> ${roll}</p>
+                        <p><strong>Marks:</strong> ${result.marks}/100</p>
+                        <p><strong>Status:</strong> <span style="color: ${status === 'Pass' ? 'green' : 'red'};">${status}</span></p>
+                        <p><strong>Grade:</strong> ${grade}</p>
+                        <button id="saveResultBtn" style="margin-top: 15px; padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 5px; cursor: pointer;">Save Result</button>
+                    </div>
+                `;
+
+                document.getElementById('resultDisplay').innerHTML = onscreenHTML;
+
+                // Download result
+                document.getElementById('saveResultBtn').addEventListener('click', () => {
+                    const downloadHTML = `
+                        <html>
+                        <head>
+                            <title>Result_${roll}</title>
+                            <style>
+                                @page { size: A4; margin: 40px; }
+                                body { font-family: Arial, sans-serif; background: #f4f4f4; }
+                                .container {
+                                    width: 800px;
+                                    margin: 0 auto;
+                                    padding: 50px;
+                                    background: #fff;
+                                    border: 4px solid #007BFF;
+                                    border-radius: 15px;
+                                    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+                                    text-align: center;
+                                }
+                                h1 {
+                                    color: #003366;
+                                    font-size: 38px;
+                                    margin-bottom: 5px;
+                                }
+                                h2 {
+                                    color: #007BFF;
+                                    font-size: 28px;
+                                    margin-bottom: 15px;
+                                }
+                                .divider {
+                                    width: 100%;
+                                    height: 3px;
+                                    background: #007BFF;
+                                    margin: 20px 0 30px 0;
+                                }
+                                p {
+                                    font-size: 22px;
+                                    margin: 12px 0;
+                                }
+                                .status-pass { color: green; font-weight: bold; }
+                                .status-fail { color: red; font-weight: bold; }
+                                .footer-line {
+                                    margin-top: 40px;
+                                    border-top: 2px solid #007BFF;
+                                    padding-top: 10px;
+                                    font-size: 18px;
+                                    color: #555;
+                                }
+                            </style>
+                        </head>
+                        <body>
+                            <div class="container">
+                                <h1>M.M Public School Mundeshwari</h1>
+                                <h2>Result Details</h2>
+                                <div class="divider"></div>
+                                <p><strong>Name:</strong> ${result.name}</p>
+                                <p><strong>Roll No:</strong> ${roll}</p>
+                                <p><strong>Marks:</strong> ${result.marks}/100</p>
+                                <p><strong>Status:</strong> <span class="${status === 'Pass' ? 'status-pass' : 'status-fail'}">${status}</span></p>
+                                <p><strong>Grade:</strong> ${grade}</p>
+                                <div class="footer-line">This is an official result from M.M Public School Mundeshwari</div>
+                            </div>
+                        </body>
+                        </html>
+                    `;
+
+                    const blob = new Blob([downloadHTML], { type: 'text/html' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = `Result_${roll}.html`;
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                });
+
+            } else {
+                showMessage('resultDisplay', 'Name does not match with roll number.', 'error');
+            }
+        } else {
+            showMessage('resultDisplay', 'Result not found for this roll number.', 'error');
+        }
+    }).catch((error) => {
+        hideLoading('checkResultBtn', 'checkResultText', 'checkResultLoading');
+        showMessage('resultDisplay', 'Error fetching result. Please try again.', 'error');
+        console.error('Error:', error);
+    });
+});
   
 // Check Admit Card  
 checkAdmitBtn.addEventListener('click', () => {  

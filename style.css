@@ -233,10 +233,10 @@ input:focus, select:focus {
 .time-inputs input {
     flex: 1;
 }
-
-/* Button Styles */
+/* Professional Multi-Color Animated Buttons */
 button {
-    background: linear-gradient(135deg, var(--primary-color) 0%, #0d2c5a 100%);
+    background: linear-gradient(270deg, #1a4b8c, #f8b500, #e63946, #28a745, #17a2b8, #ffd700, #c0c0c0, #cd7f32);
+    background-size: 1600% 1600%; /* For smooth gradient animation */
     color: white;
     border: none;
     padding: 12px 25px;
@@ -244,7 +244,7 @@ button {
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.4s ease;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -252,46 +252,64 @@ button {
     width: 100%;
     position: relative;
     overflow: hidden;
+    animation: gradientAnimation 8s ease infinite;
 }
 
-button::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    transition: left 0.5s;
-}
-
-button:hover::before {
-    left: 100%;
+@keyframes gradientAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
 }
 
 button:active {
-    transform: translateY(-1px);
+    transform: scale(0.98);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
+/* Specific Buttons */
 .upload-btn {
-    background: linear-gradient(135deg, var(--success-color) 0%, #1e7e34 100%);
+    background: linear-gradient(270deg, #28a745, #1e7e34, #17a2b8, #ffd700);
+    background-size: 800% 800%;
+    animation: gradientAnimationUpload 6s ease infinite;
+}
+
+@keyframes gradientAnimationUpload {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .remove-btn {
-    background: linear-gradient(135deg, var(--accent-color) 0%, #b71540 100%);
+    background: linear-gradient(270deg, #e63946, #b71540, #cd7f32, #6f42c1);
+    background-size: 800% 800%;
+    animation: gradientAnimationRemove 6s ease infinite;
+}
+
+@keyframes gradientAnimationRemove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
 
 .logout-btn {
-    background: linear-gradient(135deg, var(--warning-color) 0%, #e0a800 100%);
+    background: linear-gradient(270deg, #ffc107, #e0a800, #17a2b8, #1a4b8c);
+    background-size: 800% 800%;
+    animation: gradientAnimationLogout 6s ease infinite;
     width: auto;
     padding: 8px 15px;
 }
+@keyframes gradientAnimationLogout {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
 
+/* Buttons in Form Row */
 .form-row {
     display: flex;
     gap: 10px;
@@ -299,7 +317,7 @@ button:active {
 
 .form-row button {
     flex: 1;
-}
+    }
 
 /* Loading Animation */
 .loading {
@@ -327,7 +345,7 @@ button:active {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* Card heading */
+/* Card heading *
 .result-card h3 {
     text-align: center;
     color: #333;

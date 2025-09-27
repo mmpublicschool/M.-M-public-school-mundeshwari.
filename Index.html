@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.M Public School Mundeshwari</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #FFD700;
+            --silver: #C0C0C0;
+            --bronze: #CD7F32;
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #ffc107;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            border-bottom: 5px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .notice-board {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-left: 6px solid var(--secondary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .notice-board::before {
+            content: "\f0a1";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--secondary);
+            opacity: 0.2;
+        }
+        
+        .notice-marquee {
+            height: 35px;
+            overflow: hidden;
+            position: relative;
+            background: linear-gradient(90deg, #e3f2fd, #bbdefb);
+            border-radius: 6px;
+            padding: 5px 15px;
+        }
+        
+        .notice-marquee p {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            line-height: 25px;
+            text-align: center;
+            transform: translateX(100%);
+            animation: scroll-left 25s linear infinite;
+            font-weight: 500;
+            color: var(--primary);
+        }
+        
+        @keyframes scroll-left {
+            0% { transform: translateX(100%); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid var(--secondary);
+            display: inline-block;
+        }
+        
+        .result-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .result-section:hover {
+            transform: translateY(-5px);
+        }
+        
+        .topper-list {
+            margin-top: 30px;
+        }
+        
+        .topper-card {
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .topper-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+        
+        .topper-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+        }
+        
+        .gold {
+            background: linear-gradient(135deg, #fff9e6, #ffeb99);
+            border-left: 6px solid var(--gold);
+        }
+        
+        .gold::before {
+            background: linear-gradient(90deg, var(--gold), #ffed4e);
+        }
+        
+        .silver {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-left: 6px solid var(--silver);
+        }
+        
+        .silver::before {
+            background: linear-gradient(90deg, var(--silver), #d9d9d9);
+        }
+        
+        .bronze {
+            background: linear-gradient(135deg, #fdf6e6, #f5e6c8);
+            border-left: 6px solid var(--bronze);
+        }
+        
+        .bronze::before {
+            background: linear-gradient(90deg, var(--bronze), #d99c5e);
+        }
+        
+        .other {
+            background-color: white;
+            border-left: 6px solid #95a5a6;
+        }
+        
+        .other::before {
+            background: linear-gradient(90deg, #95a5a6, #bdc3c7);
+        }
+        
+        .rank-badge {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            margin-right: 20px;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .topper-card:hover .rank-badge {
+            transform: scale(1.1);
+        }
+        
+        .gold-badge {
+            background: linear-gradient(135deg, var(--gold), #ffed4e);
+        }
+        
+        .silver-badge {
+            background: linear-gradient(135deg, var(--silver), #d9d9d9);
+        }
+        
+        .bronze-badge {
+            background: linear-gradient(135deg, var(--bronze), #d99c5e);
+        }
+        
+        .other-badge {
+            background: linear-gradient(135deg, #95a5a6, #bdc3c7);
+        }
+        
+        .admin-panel {
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .result-display {
+            background: linear-gradient(135deg, #e8f4fc, #d1ebff);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 25px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            border: 1px solid #b3d9ff;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+        }
+        
+        .grade-badge {
+            font-size: 1.2rem;
+            font-weight: 700;
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        
+        .status-badge {
+            font-size: 1rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 15px;
+            display: inline-block;
+        }
+        
+        .btn-custom {
+            background: linear-gradient(135deg, var(--secondary), #5dade2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn-custom:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+            background: linear-gradient(135deg, var(--primary), #2c3e50);
+            color: white;
+        }
+        
+        .btn-danger-custom {
+            background: linear-gradient(135deg, var(--danger), #e74c3c);
+            color: white;
+        }
+        
+        .btn-success-custom {
+            background: linear-gradient(135deg, var(--success), #2ecc71);
+            color: white;
+        }
+        
+        .btn-warning-custom {
+            background: linear-gradient(135deg, var(--warning), #f39c12);
+            color: white;
+        }
+        
+        footer {
+            background: linear-gradient(135deg, var(--primary), #2c3e50);
+            color: white;
+            padding: 25px 0;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 -4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .topper-icon {
+            font-size: 24px;
+            margin-right: 10px;
+            opacity: 0.8;
+        }
+        
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus {
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            border-color: var(--secondary);
+        }
+        
+        .accordion-button {
+            font-weight: 600;
+            border-radius: 8px !important;
+            padding: 15px 20px;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: #e3f2fd;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="container">
+            <h1><i class="fas fa-school"></i> M.M Public School Mundeshwari</h1>
+            <p>Education for Excellence</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Notice Board Section -->
+        <div class="notice-board">
+            <h3 class="section-title"><i class="fas fa-bullhorn"></i> Notice Board</h3>
+            <div class="notice-marquee">
+                <p>Annual Sports Day will be held on 15th December 2023. All students are requested to participate.</p>
+            </div>
+        </div>
+
+        <!-- Check Result Section -->
+        <div class="result-section">
+            <h3 class="section-title"><i class="fas fa-search"></i> Check Your Result</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="studentName" class="form-label">Student Name</label>
+                        <input type="text" class="form-control" id="studentName" placeholder="Enter your full name">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="rollNumber" class="form-label">Roll Number</label>
+                        <input type="text" class="form-control" id="rollNumber" placeholder="Enter your roll number">
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex gap-3">
+                <button class="btn btn-custom" id="checkResultBtn"><i class="fas fa-check-circle"></i> Check Result</button>
+                <button class="btn btn-secondary" id="cancelBtn"><i class="fas fa-times-circle"></i> Cancel</button>
+            </div>
+            
+            <!-- Result Display Area -->
+            <div class="result-display hidden" id="resultDisplay">
+                <h4 class="mb-3">Result Details</h4>
+                <div class="result-card" id="studentResult">
+                    <!-- Result will be displayed here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Topper List Section -->
+        <div class="topper-list">
+            <h3 class="section-title"><i class="fas fa-trophy"></i> Topper List</h3>
+            
+            <div class="accordion" id="topperAccordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#topperCollapse" aria-expanded="true">
+                            <i class="fas fa-crown gold-badge"></i> Click to View Toppers
+                        </button>
+                    </h2>
+                    <div id="topperCollapse" class="accordion-collapse collapse show" data-bs-parent="#topperAccordion">
+                        <div class="accordion-body p-0">
+                            <div id="topperListContainer">
+                                <!-- Topper list will be loaded here dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Panel Login -->
+        <div class="admin-panel">
+            <h3 class="section-title"><i class="fas fa-user-shield"></i> Pksss Login</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="adminUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="adminUsername" placeholder="Admin username">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="adminPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="adminPassword" placeholder="Admin password">
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-custom" id="adminLoginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+            
+            <!-- Admin Dashboard (Hidden by default) -->
+            <div class="admin-dashboard hidden mt-4" id="adminDashboard">
+                <hr>
+                <h4 class="section-title">Admin Dashboard</h4>
+                
+                <!-- Upload Result Section -->
+                <div class="upload-section mb-5">
+                    <h5 class="mb-3"><i class="fas fa-upload"></i> Upload Result</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="uploadName" class="form-label">Student Name</label>
+                                <input type="text" class="form-control" id="uploadName">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="uploadRoll" class="form-label">Roll Number</label>
+                                <input type="text" class="form-control" id="uploadRoll">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="uploadMarks" class="form-label">Marks Obtained</label>
+                                <input type="number" class="form-control" id="uploadMarks" min="0" max="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-danger-custom" id="removeAllBtn"><i class="fas fa-trash-alt"></i> Remove All Results</button>
+                        <button class="btn btn-success-custom" id="uploadResultBtn"><i class="fas fa-cloud-upload-alt"></i> Upload Result</button>
+                    </div>
+                </div>
+                
+                <!-- Upload Topper List Section -->
+                <div class="upload-topper-section mb-4">
+                    <h5 class="mb-3"><i class="fas fa-trophy"></i> Upload Topper List</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="topperName" class="form-label">Student Name</label>
+                                <input type="text" class="form-control" id="topperName">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="topperRoll" class="form-label">Rank</label>
+                                <input type="text" class="form-control" id="topperRoll">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="mb-3">
+                                <label for="topperMarks" class="form-label">Marks Obtained</label>
+                                <input type="number" class="form-control" id="topperMarks" min="0" max="100">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-danger-custom" id="removeToppersBtn"><i class="fas fa-trash-alt"></i> Remove All Toppers</button>
+                        <button class="btn btn-success-custom" id="uploadTopperBtn"><i class="fas fa-plus-circle"></i> Add Topper</button>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-end">
+                    <button class="btn btn-warning-custom" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 M.M Public School Mundeshwari. All Rights Reserved.</p>
+            <p class="mb-0">Designed with <i class="fas fa-heart" style="color: #e74c3c;"></i> for Quality Education</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-app.js";
+        import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-analytics.js";
+        import { getDatabase, ref, set, get, child, remove } from "https://www.gstatic.com/firebasejs/12.3.0/firebase-database.js";
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCy1r8BXbe-W9UBsCrFDFgkHy-j7lYFwYg",
+            authDomain: "mmpublicschoolmundeshwar-233a4.firebaseapp.com",
+            databaseURL: "https://mmpublicschoolmundeshwar-233a4-default-rtdb.firebaseio.com",
+            projectId: "mmpublicschoolmundeshwar-233a4",
+            storageBucket: "mmpublicschoolmundeshwar-233a4.firebasestorage.app",
+            messagingSenderId: "34014305665",
+            appId: "1:34014305665:web:543d0aed6c75d6d8549c80",
+            measurementId: "G-XZZ5335QF0"
+        };
+
+        // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const database = getDatabase(app);
+
+        // DOM Elements
+        const checkResultBtn = document.getElementById('checkResultBtn');
+        const cancelBtn = document.getElementById('cancelBtn');
+        const resultDisplay = document.getElementById('resultDisplay');
+        const studentResult = document.getElementById('studentResult');
+        const topperListContainer = document.getElementById('topperListContainer');
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminDashboard = document.getElementById('adminDashboard');
+        const uploadResultBtn = document.getElementById('uploadResultBtn');
+        const removeAllBtn = document.getElementById('removeAllBtn');
+        const uploadTopperBtn = document.getElementById('uploadTopperBtn');
+        const removeToppersBtn = document.getElementById('removeToppersBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        // Check Result Function
+        checkResultBtn.addEventListener('click', async () => {
+            const name = document.getElementById('studentName').value.trim();
+            const roll = document.getElementById('rollNumber').value.trim();
+            
+            if (!name || !roll) {
+                alert('Please enter both name and roll number');
+                return;
+            }
+            
+            try {
+                const dbRef = ref(database);
+                const snapshot = await get(child(dbRef, `results/${roll}`));
+                
+                if (snapshot.exists()) {
+                    const data = snapshot.val();
+                    
+                    // Check if name matches
+                    if (data.name.toLowerCase() === name.toLowerCase()) {
+                        // Calculate grade and status
+                        const percentage = (data.marks / 100) * 100;
+                        let grade = '';
+                        let status = '';
+                        let gradeClass = '';
+                        let statusClass = '';
+                        
+                        if (percentage >= 90) {
+                            grade = 'A+';
+                            gradeClass = 'bg-success';
+                        } else if (percentage >= 80) {
+                            grade = 'A';
+                            gradeClass = 'bg-success';
+                        } else if (percentage >= 70) {
+                            grade = 'B+';
+                            gradeClass = 'bg-primary';
+                        } else if (percentage >= 60) {
+                            grade = 'B';
+                            gradeClass = 'bg-primary';
+                        } else if (percentage >= 50) {
+                            grade = 'C';
+                            gradeClass = 'bg-warning';
+                        } else {
+                            grade = 'F';
+                            gradeClass = 'bg-danger';
+                        }
+                        
+                        // Determine pass/fail status
+                        if (percentage >= 40) {
+                            status = 'Pass';
+                            statusClass = 'bg-success';
+                        } else {
+                            status = 'Fail';
+                            statusClass = 'bg-danger';
+                        }
+                        
+                        // Display result
+                        studentResult.innerHTML = `
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong><i class="fas fa-user"></i> Name:</strong> ${data.name}</p>
+                                    <p><strong><i class="fas fa-id-card"></i> Roll Number:</strong> ${roll}</p>
+                                    <p><strong><i class="fas fa-chart-bar"></i> Marks Obtained:</strong> ${data.marks}/100</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong><i class="fas fa-percentage"></i> Percentage:</strong> ${percentage.toFixed(2)}%</p>
+                                    <p><strong><i class="fas fa-star"></i> Grade:</strong> <span class="grade-badge ${gradeClass}">${grade}</span></p>
+                                    <p><strong><i class="fas fa-flag"></i> Status:</strong> <span class="status-badge ${statusClass}">${status}</span></p>
+                                </div>
+                            </div>
+                            <div class="text-center mt-3">
+                                <p class="mb-0"><i class="fas fa-award"></i> Congratulations on your performance!</p>
+                            </div>
+                        `;
+                        
+                        resultDisplay.classList.remove('hidden');
+                    } else {
+                        alert('Name and roll number do not match');
+                    }
+                } else {
+                    alert('No result found for this roll number');
+                }
+            } catch (error) {
+                console.error('Error fetching result:', error);
+                alert('Error fetching result. Please try again.');
+            }
+        });
+
+        // Cancel Button
+        cancelBtn.addEventListener('click', () => {
+            document.getElementById('studentName').value = '';
+            document.getElementById('rollNumber').value = '';
+            resultDisplay.classList.add('hidden');
+        });
+
+        // Load Topper List
+        async function loadTopperList() {
+            try {
+                const dbRef = ref(database);
+                const snapshot = await get(child(dbRef, 'toppers'));
+                
+                if (snapshot.exists()) {
+                    const toppers = snapshot.val();
+                    const topperArray = Object.values(toppers);
+                    
+                    // Sort toppers by marks (descending)
+                    topperArray.sort((a, b) => b.marks - a.marks);
+                    
+                    // Display toppers
+                    topperListContainer.innerHTML = '';
+                    
+                    topperArray.forEach((topper, index) => {
+                        let badgeClass = 'other-badge';
+                        let cardClass = 'other';
+                        let icon = 'fas fa-user';
+                        
+                        if (index === 0) {
+                            badgeClass = 'gold-badge';
+                            cardClass = 'gold';
+                            icon = 'fas fa-crown';
+                        } else if (index === 1) {
+                            badgeClass = 'silver-badge';
+                            cardClass = 'silver';
+                            icon = 'fas fa-medal';
+                        } else if (index === 2) {
+                            badgeClass = 'bronze-badge';
+                            cardClass = 'bronze';
+                            icon = 'fas fa-award';
+                        }
+                        
+                        const topperCard = document.createElement('div');
+                        topperCard.className = `topper-card ${cardClass} d-flex align-items-center`;
+                        topperCard.innerHTML = `
+                            <div class="rank-badge ${badgeClass}">${index + 1}</div>
+                            <div class="topper-icon">
+                                <i class="${icon}"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">${topper.name}</h5>
+                                <p class="mb-0">Marks: ${topper.marks}/100 | Roll No: ${topper.roll}</p>
+                            </div>
+                        `;
+                        
+                        topperListContainer.appendChild(topperCard);
+                    });
+                } else {
+                    topperListContainer.innerHTML = '<p class="p-3 text-center">No toppers data available</p>';
+                }
+            } catch (error) {
+                console.error('Error loading topper list:', error);
+                topperListContainer.innerHTML = '<p class="p-3 text-center">Error loading topper list</p>';
+            }
+        }
+
+        // Admin Login
+        adminLoginBtn.addEventListener('click', () => {
+            const username = document.getElementById('adminUsername').value;
+            const password = document.getElementById('adminPassword').value;
+            
+            // Simple authentication (in a real app, use Firebase Auth)
+            if (username === 'Pksss' && password === 'PKSSS') {
+                adminDashboard.classList.remove('hidden');
+                document.getElementById('adminUsername').value = '';
+                document.getElementById('adminPassword').value = '';
+            } else {
+                alert('Invalid username or password');
+            }
+        });
+
+        // Upload Result
+        uploadResultBtn.addEventListener('click', async () => {
+            const name = document.getElementById('uploadName').value.trim();
+            const roll = document.getElementById('uploadRoll').value.trim();
+            const marks = parseInt(document.getElementById('uploadMarks').value);
+            
+            if (!name || !roll || isNaN(marks)) {
+                alert('Please fill all fields correctly');
+                return;
+            }
+            
+            if (marks < 0 || marks > 100) {
+                alert('Marks should be between 0 and 500');
+                return;
+            }
+            
+            try {
+                await set(ref(database, `results/${roll}`), {
+                    name: name,
+                    roll: roll,
+                    marks: marks
+                });
+                
+                alert('Result uploaded successfully');
+                document.getElementById('uploadName').value = '';
+                document.getElementById('uploadRoll').value = '';
+                document.getElementById('uploadMarks').value = '';
+            } catch (error) {
+                console.error('Error uploading result:', error);
+                alert('Error uploading result');
+            }
+        });
+
+        // Remove All Results
+        removeAllBtn.addEventListener('click', async () => {
+            if (confirm('Are you sure you want to remove all results? This action cannot be undone.')) {
+                try {
+                    await remove(ref(database, 'results'));
+                    alert('All results removed successfully');
+                } catch (error) {
+                    console.error('Error removing results:', error);
+                    alert('Error removing results');
+                }
+            }
+        });
+
+        // Upload Topper
+        uploadTopperBtn.addEventListener('click', async () => {
+            const name = document.getElementById('topperName').value.trim();
+            const roll = document.getElementById('topperRoll').value.trim();
+            const marks = parseInt(document.getElementById('topperMarks').value);
+            
+            if (!name || !roll || isNaN(marks)) {
+                alert('Please fill all fields correctly');
+                return;
+            }
+            
+            if (marks < 0 || marks > 100) {
+                alert('Marks should be between 0 and 500');
+                return;
+            }
+            
+            // Generate a unique ID for the topper
+            const topperId = `topper_${Date.now()}`;
+            
+            try {
+                await set(ref(database, `toppers/${topperId}`), {
+                    name: name,
+                    roll: roll,
+                    marks: marks
+                });
+                
+                alert('Topper added successfully');
+                document.getElementById('topperName').value = '';
+                document.getElementById('topperRoll').value = '';
+                document.getElementById('topperMarks').value = '';
+                
+                // Reload topper list
+                loadTopperList();
+            } catch (error) {
+                console.error('Error uploading topper:', error);
+                alert('Error uploading topper');
+            }
+        });
+
+        // Remove All Toppers
+        removeToppersBtn.addEventListener('click', async () => {
+            if (confirm('Are you sure you want to remove all toppers? This action cannot be undone.')) {
+                try {
+                    await remove(ref(database, 'toppers'));
+                    alert('All toppers removed successfully');
+                    loadTopperList();
+                } catch (error) {
+                    console.error('Error removing toppers:', error);
+                    alert('Error removing toppers');
+                }
+            }
+        });
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            adminDashboard.classList.add('hidden');
+        });
+
+        // Initialize the page
+        window.addEventListener('load', () => {
+            loadTopperList();
+        });
+    </script>
+</body>
+</html>

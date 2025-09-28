@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.M Public School Mundeshwari - Result Portal</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script type="module" src="firebase-config.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loader"></div>
+        <p> M.M Public School Portal...</p>
+    </div>
+
+    <!-- Header Section -->
+    <header class="header">
+        <div class="header-content">
+            <h1>M.M Public School Mundeshwari</h1>
+            <p>Quality Education Since 2025</p>
+        </div>
+    </header>
+
+<!-- Notes Section Start -->
+<section class="notes-section">
+    <h2>📝 Latest Notes</h2>
+    <div class="notes-scroll">
+        <div class="notes-items">
+            <span class="note"> Developer: Lav Kush </span>
+            <span class="note"> Only only access: Pksss</span>
+            <span class="note"> Exam: Check result</span>
+            <span class="note"> School Toppers: Check Topper list </span>
+            <span class="note"> Exam Date: Uploading...</span>
+        </div>
+    </div>
+</section>
+<!-- Notes Section End -->    <!-- Main Container -->
+    <div class="container">
+        <!-- Check Result Section -->
+        <section class="result-section" id="checkResultSection">
+            <div class="section-header">
+                <h2>📊 Check Your Result</h2>
+                <p>Enter your details to view your result</p>
+            </div>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="studentName">Student Name</label>
+                    <input type="text" id="studentName" placeholder="Enter your full name" required>
+                </div>
+                <div class="input-field">
+                    <label for="rollNumber">Roll Number</label>
+                    <input type="text" id="rollNumber" placeholder="Enter roll number" required>
+                </div>
+                <button onclick="checkResult()" class="btn-primary">
+                    <span class="btn-icon">🔍</span>
+                    Check Result
+                </button>
+            </div>
+        </section>
+
+<!-- Result Details Section -->
+<section class="result-details" id="resultDetails" style="display: none;">
+    <div class="result-card">
+        <div class="result-header">
+            <h3>🎓 Result Details</h3>
+            <div class="result-badge" id="resultStatusBadge">Pass</div>
+        </div>
+        <div class="result-info">
+            <div class="info-item">
+                <span class="info-label">Name:</span>
+                <span class="info-value" id="resultName"></span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Roll Number:</span>
+                <span class="info-value" id="resultRoll"></span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Marks Obtained:</span>
+                <span class="info-value"><span id="resultMarks"></span>/100</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Grade:</span>
+                <span class="info-value"><span class="grade-badge" id="resultGrade"></span></span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Status:</span>
+                <span class="info-value"><span class="status-badge" id="resultStatus"></span></span>
+            </div>
+        </div>
+        <div class="result-buttons">
+            <button onclick="cancelResult()" class="btn-danger">
+                <span class="btn-icon">❌</span>
+                Check Another Result
+            </button>
+        </div>
+    </div>
+</section>
+        <!-- Topper List Section -->
+        <section class="topper-section">
+            <div class="section-header">
+                <h2 onclick="toggleTopperList()" style="cursor: pointer;">🏆 School Toppers</h2>
+                <p>Click to view top performing students टॉपर लिस्ट देखने के लिए स्कूल टॉपर पर क्लिक करें...👆</p>
+            </div>
+            <div class="topper-list-container" id="topperListContainer" style="display: none;">
+                <div class="topper-stats">
+                    <span id="topperCount">Loading...</span> students in topper list
+                </div>
+                <div class="topper-list" id="topperList">
+                    <!-- Toppers will be loaded here dynamically -->
+                </div>
+                <button onclick="toggleTopperList()" class="btn-cancel">
+                    <span class="btn-icon">⬆️</span>
+                    Close Topper List
+                </button>
+            </div>
+        </section>
+
+        <!-- Admin Panel Section -->
+        <section class="admin-section">
+            <div class="section-header">
+                <h2>⚙️ Only Pksss</h2>
+                <p>School administration access only</p>
+            </div>
+            
+            <div class="login-form" id="loginForm">
+                <div class="input-field">
+                    <label for="adminUsername">Username</label>
+                    <input type="text" id="adminUsername" placeholder="Enter  username" required>
+                </div>
+                <div class="input-field">
+                    <label for="adminPassword">Password</label>
+                    <input type="password" id="adminPassword" placeholder="Enter  password" required>
+                </div>
+                <button onclick="adminLogin()" class="btn-primary">
+                    <span class="btn-icon">🔑</span>
+                    Login 
+                </button>
+            </div>
+
+            <div class="admin-panel" id="adminPanel" style="display: none;">
+                <!-- Upload Result Section -->
+                <div class="admin-section-card">
+                    <h3>📤 Upload Student Result</h3>
+                    <div class="input-field">
+                        <label for="uploadName">Student Name</label>
+                        <input type="text" id="uploadName" placeholder="Enter student name" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="uploadRoll">Roll Number</label>
+                        <input type="text" id="uploadRoll" placeholder="Enter roll number" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="uploadMarks">Marks (out of 100)</label>
+                        <input type="number" id="uploadMarks" placeholder="Enter marks" min="0" max="100" required>
+                    </div>
+                    <div class="admin-buttons">
+                        <button onclick="uploadResult()" class="btn-success">
+                            <span class="btn-icon">📤</span>
+                            Upload Result
+                        </button>
+                        <button onclick="removeAllResults()" class="btn-danger">
+                            <span class="btn-icon">🗑️</span>
+                            Remove All Results
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Upload Topper List Section -->
+                <div class="admin-section-card">
+                    <h3>🥇 Manage Topper List</h3>
+                    <div class="input-field">
+                        <label for="topperName">Topper Name</label>
+                        <input type="text" id="topperName" placeholder="Enter topper name" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="topperMarks">Marks Obtained</label>
+                        <input type="number" id="topperMarks" placeholder="Enter marks" min="0" max="100" required>
+                    </div>
+                    <div class="input-field">
+                        <label for="topperRank">Rank Position</label>
+                        <input type="number" id="topperRank" placeholder="Enter rank" min="1" required>
+                    </div>
+                    <div class="admin-buttons">
+                        <button onclick="uploadTopper()" class="btn-success">
+                            <span class="btn-icon">⭐</span>
+                            Upload Topper
+                        </button>
+                        <button onclick="removeAllToppers()" class="btn-danger">
+                            <span class="btn-icon">🔥</span>
+                            Remove All Toppers
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Database Stats -->
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <h4>Total Results</h4>
+                        <span id="totalResults">0</span>
+                    </div>
+                    <div class="stat-card">
+                        <h4>Total Toppers</h4>
+                        <span id="totalToppers">0</span>
+                    </div>
+                </div>
+
+                <button onclick="adminLogout()" class="btn-logout">
+                    <span class="btn-icon">🚪</span>
+                    Logout
+                </button>
+            </div>
+        </section>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+</html>

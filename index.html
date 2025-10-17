@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M.M Public School Mundeshwari</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+<header>
+  <h1>M.M Public School Mundeshwari</h1>
+</header>
+        
+        <div class="marquee-container">
+            <div class="marquee">
+                <i class="fas fa-bullhorn"></i> 
+                <marquee behavior="scroll" direction="left">
+                    All Subject & All Class Chack Result Link Active
+                </marquee>
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i class="fas fa-search icon"></i> Check Result</h2>
+            <div class="input-group">
+                <label for="studentName">Student Name</label>
+                <input type="text" id="studentName" placeholder="Enter your full name">
+            </div>
+            <div class="input-group">
+                <label for="rollNumber">Roll Number</label>
+                <input type="text" id="rollNumber" placeholder="Enter your roll number">
+            </div>
+            <button class="btn pulse" id="checkResultBtn"><i class="fas fa-check-circle"></i> Check Result</button>
+        </div>
+        
+         <div class="admin-link">
+            <a href="#" id="adminLoginLink"><i class="fas fa-lock"></i> Only Pksss Login</a>
+        </div>
+
+    </div>
+    
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+    
+    <!-- Result Modal -->
+    <div class="modal" id="resultModal">
+        <div class="modal-content">
+            <span class="close" id="closeModal">&times;</span>
+            <h2><i class="fas fa-award icon"></i> Student Result</h2>
+            
+            <!-- Loading inside modal -->
+            <div class="loading" id="loadingIndicator">
+                <div class="spinner"></div>
+                <p>Fetching your result...</p>
+            </div>
+            
+            <div class="result-card" id="resultCard">
+                <!-- Result content will be dynamically inserted here -->
+            </div>
+            <button class="btn btn-cancel" id="cancelResultBtn"><i class="fas fa-times"></i> Close</button>
+        </div>
+    </div>
+    
+    <!-- Admin Login Modal -->
+    <div class="modal" id="adminModal">
+        <div class="modal-content">
+            <span class="close" id="closeAdminModal">&times;</span>
+            <h2><i class="fas fa-user-shield icon"></i> PKSSS</h2>
+            <div class="input-group">
+                <label for="adminUsername">Username</label>
+                <input type="text" id="adminUsername" placeholder="Enter admin username">
+            </div>
+            <div class="input-group">
+                <label for="adminPassword">Password</label>
+                <input type="password" id="adminPassword" placeholder="Enter admin password">
+            </div>
+            <button class="btn" id="adminLoginBtn"><i class="fas fa-sign-in-alt"></i> Login</button>
+        </div>
+    </div>
+    
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="container">
+            <header>
+                <h1><i class="fas fa-cogs icon"></i> Pksss</h1>
+                <p>Manage student results and school data</p>
+            </header>
+            
+            <div class="card">
+                <h2><i class="fas fa-upload icon"></i> Upload Result</h2>
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="adminStudentName">Student Name</label>
+                        <input type="text" id="adminStudentName" placeholder="Enter student name">
+                    </div>
+                    <div class="input-group">
+                        <label for="adminRollNumber">Roll Number</label>
+                        <input type="text" id="adminRollNumber" placeholder="Enter roll number">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label for="adminClass">Class</label>
+                    <select id="adminClass">
+                        <option value="">Select Class</option>
+                        <option value="nursery">Nursery</option>
+                        <option value="lkg">LKG</option>
+                        <option value="ukg">UKG</option>
+                        <option value="1">Class 1</option>
+                        <option value="2">Class 2</option>
+                        <option value="3">Class 3</option>
+                        <option value="4">Class 4</option>
+                        <option value="5">Class 5</option>
+                        <option value="6">Class 6</option>
+                        <option value="7">Class 7</option>
+                        <option value="8">Class 8</option>
+                        <option value="9">Class 9</option>
+                        <option value="10">Class 10</option>
+                        <option value="11">Class 11</option>
+                        <option value="12">Class 12</option>
+                    </select>
+                </div>
+                
+                <h3 style="margin-top: 20px;">Subject Marks (out of 100)</h3>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="hindiMarks">Hindi</label>
+                        <input type="number" id="hindiMarks" min="0" max="100" placeholder="Marks in Hindi">
+                    </div>
+                    <div class="input-group">
+                        <label for="englishMarks">English</label>
+                        <input type="number" id="englishMarks" min="0" max="100" placeholder="Marks in English">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="mathMarks">Mathematics</label>
+                        <input type="number" id="mathMarks" min="0" max="100" placeholder="Marks in Mathematics">
+                    </div>
+                    <div class="input-group">
+                        <label for="scienceMarks">Science</label>
+                        <input type="number" id="scienceMarks" min="0" max="100" placeholder="Marks in Science">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label for="socialMarks">Social Science</label>
+                        <input type="number" id="socialMarks" min="0" max="100" placeholder="Marks in Social Science">
+                    </div>
+                    <div class="input-group">
+                        <label for="sanskritMarks">Sanskrit</label>
+                        <input type="number" id="sanskritMarks" min="0" max="100" placeholder="Marks in Sanskrit">
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-upload" id="uploadResultBtn"><i class="fas fa-cloud-upload-alt"></i> Upload Result</button>
+                    <button class="btn btn-remove" id="removeAllDataBtn"><i class="fas fa-trash-alt"></i> Remove All Data</button>
+                </div>
+            </div>
+            
+            <button class="btn" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
